@@ -1,21 +1,57 @@
-console.log(process.argv)
 
+const figlet = require('figlet');
+const chalk = require('chalk')
+const inquirer = require('inquirer')
 const { addNote, listNotes, removeNote} = require("../utils/notes")
-const yargs = require("yargs")
-console.log(yargs.argv)
-const command = process.argv[2]
 
-if (command == "add") {
-    console.log("adding a note....")
-    addNote(yargs.argv.note)
-} else if (command == "remove"){
-    console.log("deleting note....")
-    removeNote(yargs.argv.note)
-} else if (command == "list"){
-    listNotes()
-} else {
-    console.log("command not recognised")
+const topLevelQuestion = [
+    {
+        type: "list", name: "options", message: "What would you like to do?",
+        choices: ["add", "remove", "list", "exit"]
+    }
+]
+
+
+const addQuestion = [
+    {type: "input", name: "add", message: "What would you like to add?"}
+]
+
+const removeQuestion = [
+    {type: "input", name: "remove", message: "What would you like to remove? Please type a number"}
+]
+
+const main = () => {
+    console.log(chalk.blue(figlet.textSync("Notes App")))
+    console.log("Starting uo notes app....")
+    app()
 }
+
+const app = async () => {
+    const answers = await inquirer.prompt(topLevelQuestion)
+    
+    if (answers.options == "add") {
+        const answer = await inquirer.prompt(addQuestion)
+        addNote(answer.add)
+        app()
+    } else if (answers.options == "list") {
+        listNotes()
+        app()
+    } else if (answers.options == "remove") {
+        listNotes()
+        const answer = await inquirer.prompt(removeQuestion)
+        removeNote(answer.remove)
+        app()
+    } else if (answers.options == "exit") {
+        console.log("see ya soon")
+    }
+}
+
+main()
+
+
+
+
+
 
 
 
