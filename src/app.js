@@ -3,6 +3,7 @@ const figlet = require('figlet');
 const chalk = require('chalk')
 const inquirer = require('inquirer')
 const { addNote, listNotes, removeNote} = require("../utils/notes")
+const Task = require('../model/task')
 
 const topLevelQuestion = [
     {
