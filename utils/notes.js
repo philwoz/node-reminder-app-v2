@@ -1,5 +1,6 @@
 const fs = require("fs")
 
+
 const loadNotes = () => {
     try{
         const dataBuffer = fs.readFileSync("src/notes.json")
